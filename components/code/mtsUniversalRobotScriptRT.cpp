@@ -234,6 +234,8 @@ void mtsUniversalRobotScriptRT::Init(void)
     isSecurityStop = false;
     isMotionActive = false;
 
+    m_measured_cp_euler.SetAll(0.0); // temp-JW
+
 
     // Joint Configuration
     m_configuration_j.Name().SetSize(NB_Actuators);
@@ -285,6 +287,7 @@ void mtsUniversalRobotScriptRT::Init(void)
     StateTable.AddData(m_measured_js, "measured_js");
     StateTable.AddData(m_setpoint_js, "setpoint_js");
     StateTable.AddData(m_measured_cp, "measured_cp");
+    StateTable.AddData(m_measured_cp_euler, "measured_cp_euler"); // temp-JW
     StateTable.AddData(m_setpoint_cp, "setpoint_cp");
     StateTable.AddData(TCPSpeed, "VelocityCartesian");
     StateTable.AddData(m_measured_cv, "measured_cv");
@@ -625,6 +628,10 @@ void mtsUniversalRobotScriptRT::Run(void)
                 vctFrm3 frm(cartRot, position);
                 m_measured_cp.SetPosition(frm);
                 m_measured_cp.SetValid(true);
+
+                // following are by JW, temporary functionality
+                vctEulerZYXRotation3 eulerRot(cartRot);
+                m_measured_cp_euler.Assign(position[0], position[1], position[2], eulerRot.GetAngles().X(), eulerRot.GetAngles().Y(), eulerRot.GetAngles().Z());
             }
             m_measured_cv.SetVelocity(TCPSpeed);
             m_measured_cv.SetValid(true);

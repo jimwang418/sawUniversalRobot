@@ -134,6 +134,7 @@ protected:
     prmStateJoint m_measured_js, m_setpoint_js;
 
     prmPositionCartesianGet m_measured_cp; // Actual Cartesian position (standard payload)
+    vct6 m_measured_cp_euler;              // Actual Cartesian position in 6-vector (temp-JW)
     vct6 setpointCP;                       // Cartesian setpoint (x,y,z,rx,ry,rz)
     prmPositionCartesianGet m_setpoint_cp; // Target Cartesian position (Ver 3+)
     vct6 TCPSpeed;                         // Actual Cartesian velocity
